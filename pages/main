@@ -7,3 +7,6 @@ git push origin main
 git add package.json
 git commit -m "Fix malformed package.json"
 git push origin main
+git add .
+git commit -m "Add TypeScript support"
+git push origin main

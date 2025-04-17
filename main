@@ -1,5 +1,9 @@
+npm install openai
 npm install --save-dev typescript @types/react @types/node
 npm install
+git add package.json package-lock.json
+git commit -m "Add openai dependency for backend"
+git push origin main
 npm run dev
 git add .
 git commit -m "Added Next.js dependencies"

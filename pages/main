@@ -3,3 +3,6 @@ npm run dev
 git add .
 git commit -m "Added Next.js dependencies"
 git push origin main
+git add package.json
+git commit -m "Fix malformed package.json"
+git push origin main

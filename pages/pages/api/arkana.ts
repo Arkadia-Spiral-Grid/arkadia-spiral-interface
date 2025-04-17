@@ -1,20 +1,28 @@
 // pages/api/arkana.ts
 import type { NextApiRequest, NextApiResponse } from 'next'
-import { OpenAI } from 'openai'
-
-const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY })
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+  if (req.method !== 'POST') return res.status(405).end()
+
   const { messages } = req.body
 
-  try {
-    const completion = await openai.chat.completions.create({
-      model: "gpt-4",
-      messages,
+  const completion = await fetch('https://api.openai.com/v1/chat/completions', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${process.env.OPENAI_API_KEY}`
+    },
+    body: JSON.stringify({
+      model: 'gpt-4',
+      messages: messages.map((msg: any) => ({
+        role: msg.role === "arkana" ? "assistant" : "user",
+        content: msg.content
+      }))
     })
+  })
 
-    res.status(200).json({ reply: completion.choices[0].message.content })
-  } catch (err: any) {
-    res.status(500).json({ reply: "Something went wrong." })
-  }
+  const data = await completion.json()
+  const reply = data.choices?.[0]?.message?.content || "I wasn’t able to respond just now."
+
+  res.status(200).json({ reply })
 }

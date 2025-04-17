@@ -1,2 +1,5 @@
 npm install
 npm run dev
+git add .
+git commit -m "Added Next.js dependencies"
+git push origin main
